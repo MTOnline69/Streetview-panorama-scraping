@@ -3,6 +3,7 @@ import math
 import asyncio
 import itertools
 import traceback
+import argparse
 import webbrowser
 from pprint import pprint
 
@@ -56,15 +57,22 @@ def distance(p1, p2):
 if __name__ == "__main__":
     """ Downloads and saves info about panoids in region"""
 
-    # Init variables
-    file = 'Result.html'
-    zoom_start = 12
+    parser = argparse.ArgumentParser(description='Download panorama data from Google Street View')
+    parser.add_argument('--file', type=str, default='Result.html', help='Name of the output file')
+    parser.add_argument('--zoom', type=int, default=12, help='Zoom level of the map')
+    parser.add_argument('--lat', type=float, default=51.129266, help='Latitude of the center of the area')
+    parser.add_argument('--lon', type=float, default=71.459991, help='Longitude of the center of the area')
+    parser.add_argument('--radius', type=float, default=0.5, help='Radius of the area in km')
+    parser.add_argument('--resolution', type=int, default=50, help='How many dummy points are searched, lower makes it faster, but some panoramas will be missed')
+    args = parser.parse_args()
 
-    ### CONFIGURATION
-    center = (50.7734, 14.2080) # Center of area
-    radius = 3 # Radius in kilometres
-    resolution = 500 # How many dummy points are searched, lower makes it faster, but some panoramas will be missed
-
+    file = args.file
+    zoom_start = args.zoom
+    lat = args.lat
+    lon = args.lon
+    radius = args.radius
+    resolution = args.resolution
+    center = (lat, lon)
 
     top_left = (center[0]-radius/70, center[1]+radius/70)
     bottom_right = (center[0]+radius/70, center[1]-radius/70)
@@ -92,8 +100,7 @@ if __name__ == "__main__":
 
     # Run asynchronous loop to get data about panos
     all_panoids = list()
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(request_loop())
+    asyncio.run(request_loop())
 
     # Filter out duplicates
     print(f'Pre-filtering: {len(all_panoids)} panoramas')
