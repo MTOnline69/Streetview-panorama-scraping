@@ -8,6 +8,7 @@ import streetview
 
 json_file = '/storage/emulated/0/Download/panoids.json'
 download_folder = '/storage/emulated/0/Download/'
+output_folder = '/storage/emulated/0/DCIM/Panoramas'
 
 with open(json_file, 'r') as file:
     panoids = json.load(file)
@@ -18,6 +19,7 @@ script_dir = os.path.dirname(os.path.realpath(__file__))
 tile_directory = os.path.join(script_dir, 'tiles')
 
 os.makedirs(tile_directory, exist_ok=True)
+os.makedirs(output_folder, exist_ok=True)
 
 async def download_tiles_async(tiles, session):
     for i, (x, y, fname, url) in enumerate(tiles):
