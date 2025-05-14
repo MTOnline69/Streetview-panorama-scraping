@@ -37,7 +37,7 @@ async def download_panorama(panoid):
         tiles = streetview.tiles_info(panoid['panoid'])
         async with aiohttp.ClientSession() as session:
             await download_tiles_async(tiles, session)
-        streetview.stich_tiles(panoid['panoid'], tiles, tile_directory, '/storage/emulated/0/DCIM', point=(panoid['lat'], panoid['lon']))
+        streetview.stich_tiles(panoid['panoid'], tiles, tile_directory, '/storage/emulated/0/DCIM/Downloads', point=(panoid['lat'], panoid['lon']))
         streetview.delete_tiles(tiles, tile_directory)
         print(f"Successfully downloaded and stitched panorama for {panoid['panoid']}.")
     except Exception as e:
