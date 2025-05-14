@@ -19,7 +19,7 @@ async def get_panoid(lat, lon, session):
             text = await resp.text()
             panoids = streetview.panoids_from_response(text)
             all_panoids.extend(panoids)
-    except:
+    except Exception as e:
         print(f"[Retrying] Error fetching panoids for ({lat}, {lon}): {e}")
         await asyncio.sleep(10)
         await get_panoid(lat, lon, session)
