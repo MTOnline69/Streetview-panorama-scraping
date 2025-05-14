@@ -13,5 +13,6 @@ setuptools
 numpy
 Pillow
 requests
+time
 urllib3
 yarl

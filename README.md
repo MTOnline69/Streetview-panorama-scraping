@@ -1,11 +1,15 @@
 # Streetview-panorama-scraping
 
- This module is a fork of https://github.com/FluffyMaguro/Streetview-panorama-scraping, with support for python 3.12, as well as added argument support.
+This module is a fork of [Madiwka4's fork](https://github.com/Madiwka4/Streetview-panorama-scraping) (which is a fork of [FluffyMaguro's repo](https://github.com/FluffyMaguro/Streetview-panorama-scraping)).
+
+Madiwka4's fork added support for Python 3.12 and arguments.<br/>My fork adds various arguments (prox, ignore_prox and show_test_points) to allow the user to reduce panorama cluttering. It also improves upon the code readability, adds extra print statements for the user, and has status updates for panoid gathering and filtering.
+
+---
 
 
- This module helps you scrape panoramas from Google's streetview for given area.
+This module helps you scrape panoramas from Google's streetview for given area.
 
- Scraping is done asynchronously using aiohttp and asyncio packages.
+Scraping is done asynchronously using aiohttp and asyncio packages.
 
 The module is built upon and modifies streetview module - https://github.com/robolyst/streetview
 
@@ -14,15 +18,19 @@ The module is built upon and modifies streetview module - https://github.com/rob
 2. Run `1_get_panoid_info.py` with options. Running it will save data for panormas and generates a map of panorama locations.
 
 The options:
-```bash
-  -h, --help            show this help message and exit
-  --file FILE           Name of the output file
-  --zoom ZOOM           Zoom level of the map
-  --lat LAT             Latitude of the center of the area
-  --lon LON             Longitude of the center of the area
-  --radius RADIUS       Radius of the area in km
+```nohighlight
+  -h, --help               Show this help message and exit
+  --zoom ZOOM              Initial zoom level of the map (default: 12)
+  --lat LAT                Center latitude
+  --lon LON                Center longitude
+  --radius RADIUS          Search radius in km (default: 2)
   --resolution RESOLUTION
-                        How many dummy points are searched, lower makes it faster, but some panoramas will be missed
+                           Grid resolution for sampling test points (default: 50).
+                           Higher values generate more test points and increase panorama coverage, but also increases runtime.
+                           Roughly (resolution + 1)^2 points are tested within the defined radius.
+  --prox PROXIMITY         Minimum distance between panoramas in metres (default: 20)
+  --ignore_prox bool       Disable proximity filtering
+  --show_test_points bool  Show/hide the test points
 ```
 
 <img width="100%" alt="Drag the layout file to OBS" src="https://i.imgur.com/DzjSq7a.png">
